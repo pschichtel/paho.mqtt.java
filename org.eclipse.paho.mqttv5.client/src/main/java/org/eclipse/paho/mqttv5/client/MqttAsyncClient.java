@@ -1298,10 +1298,11 @@ public class MqttAsyncClient implements MqttClientInterface, IMqttAsyncClient {
 			MqttTopicValidator.validate(subscription.getTopic(),
 					this.mqttConnection.isWildcardSubscriptionsAvailable(),
 					this.mqttConnection.isSharedSubscriptionsAvailable());
+			String topic = MqttTopic.stripSharePrefix(subscription.getTopic());
 			if (messageListener == null) {
-				this.comms.removeMessageListener(subscription.getTopic());
+				this.comms.removeMessageListener(topic);
 			} else {
-				this.comms.setMessageListener(subId, subscription.getTopic(), messageListener);
+				this.comms.setMessageListener(subId, topic, messageListener);
 			}
 		}
 

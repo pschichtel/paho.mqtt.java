@@ -13,9 +13,12 @@
 
 package org.eclipse.paho.mqttv5.common.utils;
 
+import org.eclipse.paho.mqttv5.client.MqttTopic;
 import org.eclipse.paho.mqttv5.common.util.MqttTopicValidator;
 import org.junit.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests MQTT topic wildcards
@@ -82,7 +85,13 @@ public class MqttTopicTest {
 	
 	@Test
 	public void testValidG11NTopic() {
+		// TODO this seems to test shared subscriptions, but it's using $shared instead of $share
 		MqttTopicValidator.validate("$shared/葛渚噓/GVTDurTopic02/葛渚噓", true, true);
+	}
+
+	@Test
+	public void testShareStripping() {
+		assertEquals("a", MqttTopic.stripSharePrefix("$share/test/a"));
 	}
 
 }

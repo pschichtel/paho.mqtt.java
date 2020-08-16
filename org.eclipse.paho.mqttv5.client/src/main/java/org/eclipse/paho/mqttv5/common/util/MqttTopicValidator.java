@@ -1,5 +1,7 @@
 package org.eclipse.paho.mqttv5.common.util;
 
+import org.eclipse.paho.mqttv5.client.MqttTopic;
+
 import java.io.UnsupportedEncodingException;
 
 public class MqttTopicValidator {
@@ -107,7 +109,7 @@ public class MqttTopicValidator {
 		}
 
 		// Validate Shared Subscriptions
-		if (!sharedSubAllowed && topicString.startsWith("$share/")) {
+		if (!sharedSubAllowed && MqttTopic.isShared(topicString)) {
 			throw new IllegalArgumentException("Shared Subscriptions are not allowed.");
 		}
 

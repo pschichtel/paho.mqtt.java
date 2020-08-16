@@ -27,6 +27,7 @@ import org.eclipse.paho.mqttv5.common.packet.MqttPublish;
  */
 public class MqttTopic {
 
+	public static final String SHARE_PREFIX = "$share/";
 
 	private ClientComms comms;
 	private String name;
@@ -121,6 +122,25 @@ public class MqttTopic {
 	 */
 	public String toString() {
 		return getName();
+	}
+
+	public static String shareTopic(String groupId, String topic) {
+		return SHARE_PREFIX + groupId + "/" + topic;
+	}
+
+	public static boolean isShared(String topic) {
+		return topic.startsWith(SHARE_PREFIX);
+	}
+
+	public static String stripSharePrefix(String topic) {
+		if (isShared(topic)) {
+			int nextSepPos = topic.indexOf('/', SHARE_PREFIX.length());
+			if (nextSepPos == -1) {
+				return topic;
+			}
+			return topic.substring(nextSepPos + 1);
+		}
+		return topic;
 	}
 
 }
